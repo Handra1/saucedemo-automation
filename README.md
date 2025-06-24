@@ -17,3 +17,9 @@ Project ini dibuat sebagai tugas bootcamp dari DigitalSkola untuk mengotomasi we
 ## 🚀 Cara Menjalankan
 
 1. Install dependencies:
+2. Jalankan test:
+3. Buat laporan hasil test:
+
+## 📄 Laporan Test
+
+Report HTML akan tersedia di folder `mochawesome-report/` setelah menjalankan perintah di atas.

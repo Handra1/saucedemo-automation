@@ -1,4 +1,4 @@
-const { Builder, By } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 
 describe('SauceDemo Automation', function () {
@@ -6,16 +6,17 @@ describe('SauceDemo Automation', function () {
   let driver;
 
   before(async () => {
-    driver = await new Builder().forBrowser('MicrosoftEdge').build(); // Ganti 'chrome' jika pakai Chrome
+    console.log('Menyiapkan browser...');
+    driver = await new Builder().forBrowser('MicrosoftEdge').build();
   });
 
   after(async () => {
+    console.log('Menutup browser...');
     await driver.quit();
   });
 
-  it('Login sukses dan urutkan produk A-Z', async () => {
+  it('Login sukses', async () => {
     await driver.get('https://www.saucedemo.com');
-
     await driver.findElement(By.id('user-name')).sendKeys('standard_user');
     await driver.findElement(By.id('password')).sendKeys('secret_sauce');
     await driver.findElement(By.id('login-button')).click();
@@ -23,11 +24,17 @@ describe('SauceDemo Automation', function () {
     const title = await driver.getTitle();
     assert.strictEqual(title, 'Swag Labs');
 
-    const sortDropdown = await driver.findElement(By.className('product_sort_container'));
-    await sortDropdown.sendKeys('Name (A to Z)');
+    const logo = await driver.findElement(By.className('app_logo'));
+    const logoText = await logo.getText();
+    assert.strictEqual(logoText, 'Swag Labs');
+  });
+
+  it('Urutkan produk dari A ke Z', async () => {
+    const dropdown = await driver.findElement(By.className('product_sort_container'));
+    await dropdown.sendKeys('Name (A to Z)');
 
     const firstProduct = await driver.findElement(By.className('inventory_item_name'));
     const productName = await firstProduct.getText();
-    console.log('Produk pertama setelah disortir:', productName);
+    console.log('Produk pertama setelah sorting:', productName);
   });
 })
